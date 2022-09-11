@@ -4,22 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Make LEDs blink!</title>
+
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <button onclick="makeBlink()">Blink LED</button>
-    <button onclick="stopBlink()">Stop LED</button>
+    <div class="container">
+        <label for="blink-number">Quantas vezes o LED vai piscar?</label>
+        <input type="number" id="blink-number">
+        <div class="btn-container">
+            <button onclick="makeBlink()">Blink LED</button>
+            <button onclick="stopBlink()">Stop LED</button>
+        </div>
+    </div>
+
 </body>
 
 <script>
-    function makeBlink(){
-        const url = 'http://localhost:3000/blink';
-        fetch(url)
-        .then(console.log("The LED connected to your Arduino is blinking!"))
-    }
-    function stopBlink(){
-        const url = 'http://localhost:3000/stopblink';
-        fetch(url)
-        .then(console.log("The LED connected to your Arduino has stopped blinking!"))
-    }
+
+ 
 </script>
 </html>

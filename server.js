@@ -5,16 +5,28 @@ app.use(cors())
 
 const { Board, Led } = require("johnny-five");
 const board = new Board();
+// let isBlinking = false;
 
-let blink, stopblink;
+let blink, stopblink, blinkTimes;
+const msgStatus = {
+    msg : '',
+    isBlinking : false
+}
 
-app.get('/blink', (req, res) => {
-    
-      res.send("Hellow world!")
-      blink()
+app.get('/blink/:times', (req, res) => {
+    console.log(req.params)
+    // res.send("Hellow world!");
+    msgStatus.msg = 'Começando a festa...';
+    msgStatus.isBlinking = true;
+    res.json(msgStatus);
+    blinkTimes(Number(req.params.times))
+    // blink()
 })
 app.get('/stopblink', (req, res) => {
-    res.send("Bye!!")
+    // res.send("Bye!!")
+    // res.json({msg: 'Bye', status: isBlinking})
+    msgStatus.msg = 'Desligando';
+    res.json(msgStatus);
     stopblink()
 
 })
@@ -24,9 +36,27 @@ app.listen(3000, () => {
 })
 
 
+
 board.on("ready", () => {
-    const led = new Led(13);
     console.log('Board ready')
+    const led = new Led(13);
+    
+    let timesRun = 0;
+    
+    blinkTimes = (cycles) => {
+        let interval = setInterval(() => {
+        led.toggle()
+        timesRun += 1;
+        console.log('pisca');
+        isBlinking = true;
+        if (timesRun === (cycles*2) ) {
+            clearInterval(interval);
+            timesRun = 0;
+            
+        }
+        },1000)
+    
+    }
     blink = () => {
         led.blink(1000);
     }
